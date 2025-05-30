@@ -7,6 +7,7 @@ const app = express();
 
 app.use(express.json());
 
+// Env
 console.log(`Env: ${app.get("env")}`);
 
 if (app.get("env") === "development") {
@@ -56,6 +57,10 @@ const movies = [
     imdb: 8.9,
   },
 ];
+
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
 
 // GET
 app.get("/vidly/api/genres", (req, res) => {
