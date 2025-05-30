@@ -5,6 +5,7 @@ const Joi = require("joi");
 const express = require("express");
 const app = express();
 const movies = require("./routes/movies");
+const baseRoute = require("./routes/home");
 
 app.use(express.json());
 
@@ -21,10 +22,8 @@ console.log("Application Name: " + config.get("name"));
 console.log("Mail server: " + config.get("mail.host"));
 console.log("Mail password: " + config.get("mail.password"));
 
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
-
+// Use base router
+app.use("/", baseRoute);
 // Use movies module
 app.use("/vidly/api/genres", movies);
 
