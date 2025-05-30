@@ -1,8 +1,23 @@
+const debug = require("debug")("app:startup");
+const config = require("config");
+const morgan = require("morgan");
 const Joi = require("joi");
 const express = require("express");
 const app = express();
 
 app.use(express.json());
+
+console.log(`Env: ${app.get("env")}`);
+
+if (app.get("env") === "development") {
+  app.use(morgan("tiny"));
+  debug("Morgan enabled...");
+}
+
+// Configuration
+console.log("Application Name: " + config.get("name"));
+console.log("Mail server: " + config.get("mail.host"));
+console.log("Mail password: " + config.get("mail.password"));
 
 const movies = [
   {
