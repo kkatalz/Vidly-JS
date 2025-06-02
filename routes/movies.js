@@ -21,8 +21,7 @@ const movieSchema = mongoose.Schema({
 const Movie = mongoose.model("Movie", movieSchema);
 
 // Create movies
-
-async function createCourse() {
+async function createMovie() {
   const movie = new Movie({
     name: "Pulp Fiction",
     year: 1994,
@@ -38,7 +37,7 @@ async function createCourse() {
   }
 }
 
-// createCourse();
+// createMovie();
 
 // GET
 router.get("/", async (req, res) => {
