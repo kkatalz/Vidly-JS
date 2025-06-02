@@ -1,43 +1,8 @@
+const { Movie, validate } = require("../models/movie");
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
-
-const movieSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minLength: 5,
-    maxLength: 50,
-  },
-  year: {
-    type: Number,
-    required: true,
-  },
-  director: String,
-  imdb: Number,
-});
-
-const Movie = mongoose.model("Movie", movieSchema);
-
-// Create movies
-async function createMovie() {
-  const movie = new Movie({
-    name: "Pulp Fiction",
-    year: 1994,
-    director: "Quentin Tarantino",
-    imdb: 8.9,
-  });
-
-  try {
-    const result = await movie.save();
-    console.log(result);
-  } catch (ex) {
-    for (field in ex.errrs) console.log(ex.errors[field].message);
-  }
-}
-
-// createMovie();
 
 // GET
 router.get("/", async (req, res) => {
@@ -92,17 +57,5 @@ router.delete("/:id", async (req, res) => {
 
   res.send(movie);
 });
-
-/*
-function validateMovie(movie) {
-  const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-    year: Joi.number().min(4).required(),
-    director: Joi.string(),
-    imdb: Joi.number(),
-  });
-  return schema.validate(movie);
-}
-*/
 
 module.exports = router;
