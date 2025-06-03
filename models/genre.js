@@ -30,7 +30,7 @@ async function createGenre() {
     const result = await genre.save();
     console.log(result);
   } catch (ex) {
-    for (field in ex.errrs) console.log(ex.errors[field].message);
+    for (field in ex.errors) console.log(ex.errors[field].message);
   }
 }
 
@@ -45,4 +45,5 @@ function validateGenre(genre) {
 }
 
 exports.Genre = Genre;
+exports.genreSchema = genreSchema;
 exports.validate = validateGenre;
