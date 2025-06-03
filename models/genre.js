@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const movieSchema = mongoose.Schema({
+const genreSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -15,11 +15,11 @@ const movieSchema = mongoose.Schema({
   imdb: Number,
 });
 
-const Movie = mongoose.model("Movie", movieSchema);
+const Genre = mongoose.model("Genre", genreSchema);
 
-// Create movies
-async function createMovie() {
-  const movie = new Movie({
+// Create genres
+async function createGenre() {
+  const genre = new Genre({
     name: "Pulp Fiction",
     year: 1994,
     director: "Quentin Tarantino",
@@ -27,22 +27,22 @@ async function createMovie() {
   });
 
   try {
-    const result = await movie.save();
+    const result = await genre.save();
     console.log(result);
   } catch (ex) {
     for (field in ex.errrs) console.log(ex.errors[field].message);
   }
 }
 
-function validateMovie(movie) {
+function validateGenre(genre) {
   const schema = Joi.object({
     name: Joi.string().min(3).required(),
     year: Joi.number().min(4).required(),
     director: Joi.string(),
     imdb: Joi.number(),
   });
-  return schema.validate(movie);
+  return schema.validate(genre);
 }
 
-exports.Movie = Movie;
-exports.validate = validateMovie;
+exports.Genre = Genre;
+exports.validate = validateGenre;

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
 const home = require("./routes/home");
-const movies = require("./routes/movies");
+const genres = require("./routes/genres");
 const customers = require("./routes/customers");
 
 mongoose
@@ -14,7 +14,7 @@ app.use(express.json());
 
 // Use routers
 app.use("/", home);
-app.use("/vidly/api/genres", movies);
+app.use("/vidly/api/genres", genres);
 app.use("/vidly/api/customers", customers);
 
 const PORT = process.env.PORT || 3000;
