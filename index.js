@@ -5,6 +5,7 @@ const home = require("./routes/home");
 const genres = require("./routes/genres");
 const customers = require("./routes/customers");
 const movies = require("./routes/movies");
+const rentals = require("./routes/rentals");
 
 mongoose
   .connect("mongodb://localhost:27017/")
@@ -18,6 +19,7 @@ app.use("/", home);
 app.use("/vidly/api/genres", genres);
 app.use("/vidly/api/movies", movies);
 app.use("/vidly/api/customers", customers);
+app.use("/vidly/api/rentals", rentals);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
