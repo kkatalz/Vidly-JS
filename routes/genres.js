@@ -22,11 +22,11 @@ router.get("/:id", async (req, res) => {
 
 // POST
 router.post("/", async (req, res) => {
-  let genre = new Genre(req.body);
+  const genre = new Genre(req.body);
 
   try {
-    const result = await genre.save();
-    res.send(result);
+    await genre.save();
+    res.send(genre);
   } catch (ex) {
     res.status(400).send(ex.message);
   }
