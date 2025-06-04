@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+const config = require("config");
 const { User, validate } = require("../models/user");
 const mongoose = require("mongoose");
 const _ = require("lodash");
@@ -22,7 +24,10 @@ router.post("/", async (req, res) => {
 
     await user.save();
 
-    res.send(_.pick(user, ["_id", "name", "email"]));
+    const token = jwt.sign({ _id: user._id }, config.get("jwtPrivateKey"));
+    res
+      .header("x-auth-token", token)
+      .send(_.pick(user, ["_id", "name", "email"]));
   } catch (ex) {
     res.status(400).send(ex.message);
   }
