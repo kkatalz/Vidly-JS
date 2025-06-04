@@ -1,4 +1,4 @@
-const { Movie } = require("../models/movie");
+const { Movie, validate } = require("../models/movie");
 const { Genre } = require("../models/genre");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -22,6 +22,9 @@ router.get("/:id", async (req, res) => {
 
 // POST
 router.post("/", async (req, res) => {
+  const { error } = validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
   const genre = await Genre.findById(req.body.genreId);
   if (!genre) return res.status(400).send("No such genre with given id");
 
@@ -48,6 +51,9 @@ router.post("/", async (req, res) => {
 
 // UPDATE
 router.put("/:id", async (req, res) => {
+  const { error } = validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
   const genre = await Genre.findById(req.body.genreId);
   if (!genre) return res.status(400).send("No such genre with given id");
 
