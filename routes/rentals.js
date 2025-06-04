@@ -47,26 +47,13 @@ router.post("/", async (req, res) => {
     },
   });
 
-  const session = await mongoose.startSession();
-
   try {
-    session.startTransaction();
+    await rental.save();
 
-    await rental.save({ session });
-
-    await Movie.updateOne(
-      { _id: movie._id },
-      { $inc: { numberInStock: -1 } },
-      { session }
-    );
-
-    await session.commitTransaction();
+    await Movie.updateOne({ _id: movie._id }, { $inc: { numberInStock: -1 } });
     res.send(rental);
   } catch (ex) {
-    await session.abortTransaction();
-    res.status(500).send("Transaction failed: " + ex.message);
-  } finally {
-    session.endSession();
+    res.status(500).send("Error saving rental: " + ex.message);
   }
 });
 
