@@ -1,3 +1,4 @@
+const error = require("./middleware/error");
 const config = require("config");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
@@ -32,6 +33,8 @@ app.use("/vidly/api/customers", customers);
 app.use("/vidly/api/rentals", rentals);
 app.use("/vidly/api/users", users);
 app.use("/vidly/api/auth", auth);
+
+app.use(error);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
