@@ -1,3 +1,4 @@
+const auth = require("../middleware/auth");
 const { Genre, validate } = require("../models/genre");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -21,7 +22,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   const genre = new Genre(req.body);
 
   try {
