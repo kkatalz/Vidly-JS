@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const customerSchema = mongoose.Schema({
   isGold: {
@@ -27,4 +28,15 @@ async function createCustomer() {
   }
 }
 
+function validateCustomer(customer) {
+  const schema = Joi.object({
+    name: Joi.string().min(2).max(255).required(),
+    phone: Joi.string()
+      .pattern(/^[0-9]{10,20}$/)
+      .required(),
+  });
+  return schema.validate(customer);
+}
+
 exports.Customer = Customer;
+exports.validate = validateCustomer;
