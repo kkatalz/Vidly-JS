@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
@@ -13,6 +14,10 @@ router.post("/", async (req, res) => {
 
   try {
     user = new User(_.pick(req.body, ["name", "email", "password"]));
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+
     await user.save();
 
     res.send(_.pick(user, ["_id", "name", "email"]));
