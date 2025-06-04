@@ -9,6 +9,7 @@ const customers = require("./routes/customers");
 const movies = require("./routes/movies");
 const rentals = require("./routes/rentals");
 const users = require("./routes/users");
+const auth = require("./routes/auth");
 
 mongoose
   .connect("mongodb://localhost:27017/")
@@ -24,6 +25,7 @@ app.use("/vidly/api/movies", movies);
 app.use("/vidly/api/customers", customers);
 app.use("/vidly/api/rentals", rentals);
 app.use("/vidly/api/users", users);
+app.use("/vidly/api/auth", auth);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
