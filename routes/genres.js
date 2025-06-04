@@ -1,4 +1,5 @@
-const asyncMiddleware = require("../middleware/auth");
+const asyncMiddleware = require("../middleware/async");
+const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const async = require("../middleware/async");
 const { Genre, validate } = require("../models/genre");
