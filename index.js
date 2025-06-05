@@ -1,4 +1,5 @@
 const winston = require("winston");
+require("winston-mongodb");
 const error = require("./middleware/error");
 const config = require("config");
 const Joi = require("joi");
@@ -20,6 +21,9 @@ winston.add(
     format: winston.format.simple(),
   })
 );
+winston.add(
+  new winston.transports.MongoDB({ db: "mongodb://localhost/vidly" })
+);
 
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined");
@@ -27,7 +31,7 @@ if (!config.get("jwtPrivateKey")) {
 }
 
 mongoose
-  .connect("mongodb://localhost:27017/")
+  .connect("mongodb://localhost:27017/vidly")
   .then(() => console.log("Connected to MongoDb..."))
   .catch((err) => console.error("Could not connect to MongoDb", err));
 
@@ -35,12 +39,12 @@ app.use(express.json());
 
 // Use routers
 app.use("/", home);
-app.use("/vidly/api/genres", genres);
-app.use("/vidly/api/movies", movies);
-app.use("/vidly/api/customers", customers);
-app.use("/vidly/api/rentals", rentals);
-app.use("/vidly/api/users", users);
-app.use("/vidly/api/auth", auth);
+app.use("/api/genres", genres);
+app.use("/api/movies", movies);
+app.use("/api/customers", customers);
+app.use("/api/rentals", rentals);
+app.use("/api/users", users);
+app.use("/api/auth", auth);
 
 app.use(error);
 
