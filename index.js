@@ -15,15 +15,26 @@ const rentals = require("./routes/rentals");
 const users = require("./routes/users");
 const auth = require("./routes/auth");
 
+// Catch uncaught exceptions
+process.on("uncaughtException", (ex) => {
+  console.log("We got an uncaught exception");
+  winston.error(ex.message, ex);
+});
+
+// Save errors by winston logger in file
 winston.add(new winston.transports.File({ filename: "logfile.log" }));
 winston.add(
   new winston.transports.Console({
     format: winston.format.simple(),
   })
 );
+// Save errors to mongodb
 winston.add(
   new winston.transports.MongoDB({ db: "mongodb://localhost/vidly" })
 );
+
+// SET AN ERROR OUTSIDE OF THE MAIN ROUTES
+throw new Error("TEST UNCAUGHT EXCEPTION");
 
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined");
