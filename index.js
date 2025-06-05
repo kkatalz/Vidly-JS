@@ -16,9 +16,27 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 
 // Catch uncaught exceptions
+/*
 process.on("uncaughtException", (ex) => {
   console.log("We got an uncaught exception");
   winston.error(ex.message, ex);
+  process.exit(1);
+});
+
+// Catch unhadled promise rejection
+process.on("unhandledRejection", (ex) => {
+  console.log("We got an unhadled promise rejection");
+  winston.error(ex.message, ex);
+  process.exit(1);
+});
+*/
+
+// TO AUTOMATE TWO EXCEPTIONs ABOUT  USE WINSTON
+winston.handleExceptions(
+  new winston.transports.File({ filename: "uncaughtExceptions.log" })
+);
+process.on("unhandledRejection", (ex) => {
+  throw ex;
 });
 
 // Save errors by winston logger in file
@@ -34,7 +52,11 @@ winston.add(
 );
 
 // SET AN ERROR OUTSIDE OF THE MAIN ROUTES
-throw new Error("TEST UNCAUGHT EXCEPTION");
+// throw new Error("TEST UNCAUGHT EXCEPTION");
+
+// SET PROMISE REJECTION
+const p = Promise.reject(new Error("Something failed miserably!"));
+p.then(() => console.log("Done"));
 
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined");
