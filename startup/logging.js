@@ -4,7 +4,8 @@ require("winston-mongodb");
 module.exports = function () {
   // HANDLE EXCEPTIONS
   winston.exceptions.handle(
-    new winston.transports.File({ filename: "uncaughtExceptions.log" })
+    new winston.transports.File({ filename: "uncaughtExceptions.log" }),
+    new winston.transports.Console({ colorize: true, prettyPrint: true })
   );
   process.on("unhandledRejection", (ex) => {
     throw ex;
