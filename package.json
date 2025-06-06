@@ -1,0 +1,37 @@
+{
+  "name": "vidly",
+  "version": "1.0.0",
+  "description": "��V\u0000i\u0000d\u0000l\u0000y\u0000-\u0000J\u0000S\u0000\r\u0000 \u0000",
+  "main": "express.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkatalz/Vidly-JS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kkatalz/Vidly-JS/issues"
+  },
+  "homepage": "https://github.com/kkatalz/Vidly-JS#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "config": "^4.0.0",
+    "debug": "^4.4.1",
+    "express": "^5.1.0",
+    "fawn": "^2.1.5",
+    "joi": "^17.13.3",
+    "joi-objectid": "^4.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mongoose": "^8.15.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.10",
+    "pug": "^3.0.3",
+    "winston": "^3.17.0",
+    "winston-mongodb": "^6.0.0"
+  }
+}
