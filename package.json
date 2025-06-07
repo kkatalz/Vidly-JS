@@ -4,7 +4,7 @@
   "description": "��V\u0000i\u0000d\u0000l\u0000y\u0000-\u0000J\u0000S\u0000\r\u0000 \u0000",
   "main": "express.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchAll"
   },
   "repository": {
     "type": "git",
@@ -33,5 +33,8 @@
     "pug": "^3.0.3",
     "winston": "^3.17.0",
     "winston-mongodb": "^6.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
