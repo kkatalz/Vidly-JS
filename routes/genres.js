@@ -1,4 +1,5 @@
 const asyncMiddleware = require("../middleware/async");
+const validateObjectId = require("../middleware/validateObjectId");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const async = require("../middleware/async");
@@ -21,10 +22,8 @@ router.get(
 
 router.get(
   "/:id",
+  validateObjectId,
   asyncMiddleware(async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
-      return res.status(404).send("Invalid genre ID.");
-
     const genre = await Genre.findById(req.params.id);
 
     if (!genre)
