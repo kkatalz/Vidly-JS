@@ -31,7 +31,7 @@ describe("/api/genres", () => {
   });
 
   describe("GET/:id", () => {
-    it("should return a genre by given id if it exists", async () => {
+    it("should return a genre if valid id is passed", async () => {
       const genre = new Genre({ name: "genre1", year: 2012 });
       await genre.save();
 
@@ -109,7 +109,7 @@ describe("/api/genres", () => {
     });
   });
 
-  describe("PUT/", () => {
+  describe("PUT/:id", () => {
     let name; //genre's name
     let id;
     let year;
@@ -165,6 +165,73 @@ describe("/api/genres", () => {
       const res = await exec();
 
       expect(res.status).toBe(404);
+    });
+  });
+
+  describe("DELETE/:id", () => {
+    let token;
+    let id;
+    let genre;
+
+    const exec = async () => {
+      return await request(server)
+        .delete("/api/genres/" + id)
+        .set("x-auth-token", token)
+        .send();
+    };
+
+    beforeEach(async () => {
+      // Before each test we need to create a genre and
+      // put it in the database.
+      genre = new Genre({ name: "genre1", year: 2012 });
+      await genre.save();
+      id = genre._id;
+
+      token = new User({ isAdmin: true }).generateAuthToken();
+    });
+
+    it("should return 401 if client is not logged in", async () => {
+      token = "";
+
+      const res = await exec();
+
+      expect(res.status).toBe(401);
+    });
+
+    it("should return 403 is user is NOT an admin", async () => {
+      token = new User({ isAdmin: false }).generateAuthToken();
+
+      const res = await exec();
+      expect(res.status).toBe(403);
+    });
+
+    it("should return 404 if id is invalid", async () => {
+      id = 1;
+
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+
+    it("should return 404 if genre by given id does not exist", async () => {
+      id = new mongoose.Types.ObjectId();
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+
+    it("should remove the genre if id is valid", async () => {
+      await exec();
+
+      const genreInDb = await Genre.findById(id);
+      expect(genreInDb).toBeNull();
+    });
+
+    it("should return the removed genre", async () => {
+      const res = await exec();
+
+      expect(res.body).toHaveProperty("_id", genre._id.toHexString());
+      expect(res.body).toHaveProperty("name", genre.name);
     });
   });
 });
