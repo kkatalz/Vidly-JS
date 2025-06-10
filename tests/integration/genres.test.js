@@ -5,12 +5,12 @@ const { User } = require("../../models/user");
 let server;
 
 describe("/api/genres", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     server = require("../../index");
-    await Genre.deleteMany({});
   });
-  afterEach(() => {
+  afterEach(async () => {
     server.close();
+    await Genre.deleteMany({});
   });
 
   describe("GET/", () => {
