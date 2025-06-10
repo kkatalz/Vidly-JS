@@ -37,7 +37,7 @@ async function createGenre() {
 
 function validateGenre(genre) {
   const schema = Joi.object({
-    name: Joi.string().min(3).required(),
+    name: Joi.string().min(5).max(50).required(),
     year: Joi.number().min(4).required(),
     director: Joi.string(),
     imdb: Joi.number(),

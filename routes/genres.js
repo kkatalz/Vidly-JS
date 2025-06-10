@@ -37,6 +37,9 @@ router.post(
   "/",
   auth,
   asyncMiddleware(async (req, res) => {
+    const { error } = validate(req.body);
+    if (error) return res.status(400).send(error.message);
+
     const genre = new Genre(req.body);
     await genre.save();
     res.send(genre);
