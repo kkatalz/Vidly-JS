@@ -108,4 +108,63 @@ describe("/api/genres", () => {
       expect(res.body).toHaveProperty("name", "genre1");
     });
   });
+
+  describe("PUT/", () => {
+    let name; //genre's name
+    let id;
+    let year;
+
+    const exec = async () => {
+      return await request(server)
+        .put("/api/genres/" + id)
+        .send({ name, year });
+    };
+
+    const createGenre = async () => {
+      const genre = new Genre({ name, year });
+      await genre.save();
+      return genre._id.toHexString();
+    };
+
+    beforeEach(() => {
+      name = "genre1";
+      year = 2012;
+    });
+
+    it("should return 400 if genre is less than 5 characters", async () => {
+      await createGenre();
+
+      name = "1234"; //invalid name
+      const res = await exec();
+
+      expect(res.status).toBe(400);
+    });
+
+    it("should return 400 if genre is more than 50 characters", async () => {
+      await createGenre();
+
+      name = new Array(52).join("a"); //invalid name
+      const res = await exec();
+
+      expect(res.status).toBe(400);
+    });
+
+    it("should find by id and update if id is valid", async () => {
+      id = await createGenre();
+
+      name = "newGenre";
+      year = 2013;
+
+      const res = await exec();
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject({ _id: id, name, year });
+    });
+
+    it("should return 404 if genre by given id does not exist", async () => {
+      id = new mongoose.Types.ObjectId();
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+  });
 });
