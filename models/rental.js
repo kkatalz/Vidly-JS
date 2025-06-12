@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-const rentalSchema = mongoose.Schema({
+const rentalSchema = new mongoose.Schema({
   customer: {
     type: new mongoose.Schema({
       name: { type: String, required: true, minlength: 5, maxlength: 50 },
