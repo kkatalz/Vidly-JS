@@ -26,7 +26,11 @@ router.post(
       return res.status(400).send("rental is already proccessed");
 
     rental.dateReturned = new Date();
+
+    const rentalDays = Math.max(1, moment().diff(rental.dateOut, "days"));
+    rental.rentalFee = rentalDays * rental.movie.dailyRentalRate;
     await rental.save();
+
     return res.status(200).send();
   })
 );

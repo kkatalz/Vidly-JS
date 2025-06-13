@@ -94,4 +94,14 @@ describe.only("/api/returns/", () => {
     const diff = new Date() - rentalInDb.dateReturned;
     expect(diff).toBeLessThan(10 * 1000);
   });
+
+  it("should set the rental fee if input is valid request", async () => {
+    rental.dateOut = moment().subtract(7, "days").toDate();
+    await rental.save();
+
+    const res = await exec();
+
+    const rentalInDb = await Rental.findById(rental._id);
+    expect(rentalInDb.rentalFee).toBe(14);
+  });
 });
