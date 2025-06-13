@@ -19,7 +19,7 @@ module.exports = function () {
     })
   );
   // Save errors to mongodb
-  winston.add(
-    new winston.transports.MongoDB({ db: "mongodb://localhost/vidly" })
-  );
+  if (process.env.NODE_ENV !== "test") {
+    winston.add(new winston.transports.MongoDB({ db: config.get("db") }));
+  }
 };
