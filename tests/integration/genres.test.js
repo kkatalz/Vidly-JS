@@ -10,15 +10,15 @@ describe("/api/genres", () => {
     server = require("../../index");
   });
   afterEach(async () => {
-    server.close();
     await Genre.deleteMany({});
+    await server.close();
   });
 
   describe("GET/", () => {
     it("should return all genres", async () => {
-      await Genre.collection.insertMany([
-        { name: "genre1" },
-        { name: "genre2" },
+      await Genre.create([
+        { name: "genre1", year: 2012 },
+        { name: "genre2", year: 2014 },
       ]);
 
       const res = await request(server).get("/api/genres");
@@ -32,8 +32,7 @@ describe("/api/genres", () => {
 
   describe("GET/:id", () => {
     it("should return a genre if valid id is passed", async () => {
-      const genre = new Genre({ name: "genre1", year: 2012 });
-      await genre.save();
+      const genre = await Genre.create({ name: "genre1", year: 2012 });
 
       const res = await request(server).get("/api/genres/" + genre._id);
       expect(res.status).toBe(200);
