@@ -21,17 +21,15 @@ router.post(
     if (rental.dateReturned)
       return res.status(400).send("rental is already proccessed");
 
-    rental.dateReturned = new Date();
+    rental.return();
 
-    const rentalDays = Math.max(1, moment().diff(rental.dateOut, "days"));
-    rental.rentalFee = rentalDays * rental.movie.dailyRentalRate;
     await rental.save();
 
     await Movie.findByIdAndUpdate(rental.movie._id, {
       $inc: { numberInStock: 1 },
     });
 
-    return res.status(200).send(rental);
+    return res.send(rental);
   })
 );
 
