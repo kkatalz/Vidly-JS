@@ -3,7 +3,7 @@ const { Rental } = require("../../models/rental");
 const { User } = require("../../models/user");
 const { mongoose } = require("mongoose");
 
-describe("/api/returns/", () => {
+describe.only("/api/returns/", () => {
   let server;
   let rental;
   let token;
@@ -77,5 +77,11 @@ describe("/api/returns/", () => {
     const res = await exec();
 
     expect(res.status).toBe(400);
+  });
+
+  it("should return 200 if valid request", async () => {
+    const res = await exec();
+
+    expect(res.status).toBe(200);
   });
 });

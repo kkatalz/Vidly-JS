@@ -6,6 +6,7 @@ const auth = require("../middleware/auth");
 
 router.post(
   "/",
+  auth,
   asyncMiddleware(async (req, res) => {
     if (!req.body.customerId)
       res.status(400).send("customer id is not provided");
@@ -20,7 +21,7 @@ router.post(
     if (rental.dateReturned)
       res.status(400).send("rental is already proccessed");
 
-    res.status(401).send("client is not logged in");
+    return res.status(200).send("Request is proccessing");
   })
 );
 
