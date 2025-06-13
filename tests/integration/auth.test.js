@@ -6,11 +6,11 @@ let server;
 describe("auth middleware", () => {
   beforeEach(async () => {
     server = require("../../index");
+    token = new User().generateAuthToken();
   });
   afterEach(async () => {
     await Genre.deleteMany({});
-
-    server.close();
+    await server.close();
   });
 
   let token;
@@ -20,10 +20,6 @@ describe("auth middleware", () => {
       .set("x-auth-token", token)
       .send({ name: "genre1", year: " 2012" });
   };
-
-  beforeEach(() => {
-    token = new User().generateAuthToken();
-  });
 
   it("should return 401 if no token is provided", async () => {
     token = "";
