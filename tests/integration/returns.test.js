@@ -45,6 +45,7 @@ describe.only("/api/returns/", () => {
         _id: movieId,
         title: "12345",
         dailyRentalRate: 2,
+        dateOut: new Date(),
       },
     });
     await rental.save();
@@ -122,5 +123,20 @@ describe.only("/api/returns/", () => {
     const movieInDb = await Movie.findById(movieId);
 
     expect(movieInDb.numberInStock).toBe(movie.numberInStock + 1);
+  });
+
+  it("should return the rental in the body of response if input is a valid request", async () => {
+    const res = await exec();
+    const rentalInDb = await Rental.findById(rental._id);
+
+    expect(Object.keys(res.body)).toEqual(
+      expect.arrayContaining([
+        "dateOut",
+        "dateReturned",
+        "rentalFee",
+        "customer",
+        "movie",
+      ])
+    );
   });
 });
