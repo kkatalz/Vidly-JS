@@ -4,7 +4,11 @@
   "description": "��V\u0000i\u0000d\u0000l\u0000y\u0000-\u0000J\u0000S\u0000\r\u0000 \u0000",
   "main": "express.js",
   "scripts": {
-    "test": "jest --watchAll --verbose --coverage"
+    "test": "jest --watchAll --verbose --coverage",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "22.16.0"
   },
   "repository": {
     "type": "git",
@@ -19,14 +23,17 @@
   "homepage": "https://github.com/kkatalz/Vidly-JS#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "compression": "^1.8.0",
     "config": "^4.0.0",
     "debug": "^4.4.1",
     "express": "^5.1.0",
     "fawn": "^2.1.5",
+    "helmet": "^8.1.0",
     "joi": "^17.13.3",
     "joi-objectid": "^4.0.2",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
+    "moment": "^2.30.1",
     "mongoose": "^8.15.1",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.10",
