@@ -1,4 +1,5 @@
 const winston = require("winston");
+const config = require("config");
 require("winston-mongodb");
 
 module.exports = function () {
